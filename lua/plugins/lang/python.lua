@@ -1,5 +1,5 @@
 -- Function to execute a shell command and return its output
-function execute_command(command)
+local function execute_command(command)
   local handle = io.popen(command, "r")
   local result = handle:read("*a")
   handle:close()
@@ -7,7 +7,7 @@ function execute_command(command)
 end
 
 -- Function to parse the output of `micromamba env list` and find the active environment
-function get_active_micromamba_env()
+local function get_active_micromamba_env()
   local output = execute_command("$MAMBA_EXE env list")
   --vim.notify("envs: " .. output)
   for line in output:gmatch("[^\r\n]+") do
@@ -20,7 +20,7 @@ function get_active_micromamba_env()
 end
 
 -- Function to get the path to the active micromamba environment
-function get_python_path()
+local function get_python_path()
   return execute_command("which python | tr -d '\n'")
   -- local active_micromamba_env_name = get_active_micromamba_env()
   --
@@ -45,6 +45,7 @@ local python_path = get_python_path()
 -- Notify if you want
 --vim.notify("Python Path: " .. python_path)
 
+-- Make the editor recognize the correct python path
 vim.g.python3_host_prog = vim.fn.expand(python_path)
 
 return {
@@ -130,18 +131,6 @@ return {
             },
           },
         },
-        -- pylsp = {
-        --   mason = false,
-        --   settings = {
-        --     pylsp = {
-        --       plugins = {
-        --         rope_autoimport = {
-        --           enabled = true,
-        --         },
-        --       },
-        --     },
-        --   },
-        -- },
         ruff_lsp = {
           -- handlers = {
           --   ["textDocument/publishDiagnostics"] = function() end,
@@ -185,12 +174,13 @@ return {
     optional = true,
     opts = {
       formatters_by_ft = {
-        ["python"] = { { "black", "ruff" } },
+        ["python"] = { { "ruff" } },
       },
     },
   },
 
-  -- Setup null-ls with `black`
+  -- Setup null-ls with `ruff-lsp`
+  -- conform.nvim will replace this
   -- {
   --   "nvimtools/none-ls.nvim",
   --   opts = function(_, opts)
@@ -198,11 +188,11 @@ return {
   --     opts.sources = vim.list_extend(opts.sources, {
   --       -- Order of formatters matters. They are used in order of appearance.
   --       nls.builtins.formatting.ruff,
-  --       nls.builtins.formatting.black,
+  --       -- nls.builtins.formatting.black,
   --       -- nls.builtins.formatting.black.with({
   --       --   extra_args = { "--preview" },
   --       -- }),
-  --       -- nls.builtins.diagnostics.ruff,
+  --       nls.builtins.diagnostics.ruff,
   --     })
   --   end,
   -- },

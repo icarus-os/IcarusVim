@@ -113,6 +113,7 @@ vim.keymap.set("v", "<A-x>", comment_api.call("toggle.linewise", "g@"), { expr =
 -- The `i` version is done automatically by vimcest
 nmap("<C-z>", "u")
 vmap("<C-z>", "u")
+nmap("<C-y>", "<cmd>redo<CR>") -- redo
 vmap("<C-c>", '"+y')
 nmap("<C-v>", '"+pi')
 
