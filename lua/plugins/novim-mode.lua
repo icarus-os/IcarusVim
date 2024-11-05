@@ -1,4 +1,3 @@
 return {
-  --"tombh/novim-mode",
-  "AmeerArsala/vimcest2",
+  "AmeerArsala/lazyvimcest",
 }

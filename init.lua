@@ -1,31 +1,16 @@
--- bootstrap lazy.nvim, LazyVim and your plugins
-require("config.lazy")
-
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua"
 
--- For kitty terminal
---vim.opt.clipboard = "unamed,unamedplus"
-vim.cmd([[set clipboard=unnamedplus]])
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")
 
--- Don't make a habit of using this function in this file
--- Arbitrary mode key mapping function
--- modes: {"i", "n"} to do both insert and normal mode for example
-local function keymap(modes, lhs, rhs, opts)
-  local options = { noremap = true, silent = true }
+-- Theme
+local theme = require("globals.theme")
+theme.apply()
 
-  if opts then
-    options = vim.tbl_extend("force", options, opts)
-  end
-
-  for index, value in ipairs(modes) do
-    vim.api.nvim_set_keymap(value, lhs, rhs, options)
-  end
-end
-
--- Navbuddy fix
-keymap({ "i" }, "<C-k>", "<Esc><cmd>Navbuddy<CR>")
---vim.api.nvim_del_keymap('n', "<c-w><space>")
+-- Post-Init Keybindings
+-- nothing in there rn so I commented it out
+--require("setup.postkeybinds")
 
 -- Configure telescope here since I'm lazy
 -- require("telescope").setup({
@@ -43,48 +28,6 @@ keymap({ "i" }, "<C-k>", "<Esc><cmd>Navbuddy<CR>")
 --     },
 --   },
 -- })
-
--- UI Plugins
-
-local colors = require("tokyonight.colors").setup()
-vim.cmd([[colorscheme tokyonight-moon]])
-
-require("scrollbar").setup({
-  handle = {
-    color = colors.bg_highlight,
-  },
-  marks = {
-    Cursor = {
-      text = "*",
-      priority = 0,
-      gui = nil,
-      color = nil,
-      cterm = nil,
-      color_nr = nil, -- cterm
-      highlight = "Normal",
-    },
-    Search = { color = colors.orange },
-    Error = {
-      color = colors.error,
-    },
-    Warn = {
-      color = nil --[[colors.warning]],
-    },
-    Info = {
-      color = nil --[[colors.info]],
-    },
-    Hint = {
-      color = nil --[[colors.hint]],
-    },
-    Misc = {
-      color = nil --[[colors.purple]],
-    },
-  },
-  handlers = {
-    cursor = false,
-    --diagnostic = false,
-  },
-})
 
 -- require("which-key").setup(
 --   -- which-key helps you remember key bindings by showing a popup

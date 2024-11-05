@@ -60,8 +60,8 @@ local function keymap(modes, lhs, rhs, opts)
 end
 
 -- Navbuddy
-nmap("<C-k>", "<cmd>Navbuddy<CR>")
-imap("<C-k>", "<Esc><cmd>Navbuddy<CR>")
+nmap("<C-,>", "<cmd>Navbuddy<CR>")
+imap("<C-,>", "<Esc><cmd>Navbuddy<CR>")
 
 -- Arrow keys more natural in normal mode
 nmap("<C-Right>", "<S-Right>", {})
@@ -70,11 +70,6 @@ nmap("<C-Left>", "<S-Left>", {})
 -- Mapping for CTRL + W (close the currently open tab)
 imap("<C-w>", "<Esc><cmd>bd<CR>", {})
 --nmap("<C-w>", "<cmd>bd<CR>", { ttimeout = true })
-
---vim.keymap.set('n', '<leader>', ':set ttimeout<CR>', {expr = true})
-
---nmap("<C-w>[char]", "", {})
---nmap("<C-\\>", "<cmd>bd<CR>", {})
 
 -- Mapping for CTRL + N (new buffer/tab)
 imap("<C-n>", "<Esc><cmd>enew<CR>", {})
@@ -97,8 +92,14 @@ nmap("<C-E>", "<cmd>bnext<CR>", {})
 imap("<C-Q>", "<C-O>:bprev<CR>", {})
 nmap("<C-Q>", "<cmd>bprev<CR>")
 
+-- Switching windows
+imap("<C-k>", "<C-O><C-W><Up>") -- up
+-- imap("<C-j>", ) -- down
+-- imap("<C-h>", ) -- left
+imap("<C-l>", "<C-O><C-W><Right>") -- right
+
 -- Fix CTRL + Backspace
-imap("<C-H>", "<C-O>:call novim_mode#EnterSelectionMode('left')<CR><C-S-Left><Backspace>", {})
+--imap("<C-H>", "<C-O>:call novim_mode#EnterSelectionMode('left')<CR><C-S-Left><Backspace>", {})
 imap("<C-bs>", "<C-O>:call novim_mode#EnterSelectionMode('left')<CR><C-S-Left><Backspace>", {})
 
 -- Mass Commenting with ALT+x
@@ -108,9 +109,8 @@ vim.keymap.set("v", "<A-x>", comment_api.call("toggle.linewise", "g@"), { expr =
 --smap("<A-x>", "<C-O>:call novim_mode#EnterSelectionMode('comment')<CR>")
 
 -- Fix keys like CTRL+C, CTRL+Z, even CTRL+V
--- keymap({ "n", "v", "s" }, "<C-z>", "u")
--- keymap({ "v" }, "<C-c>", '"+y')
--- keymap({ "n", "v", "s" }, "<C-v>", '"+pi')
+
+-- The `i` version is done automatically by vimcest
 nmap("<C-z>", "u")
 vmap("<C-z>", "u")
 vmap("<C-c>", '"+y')
@@ -118,18 +118,8 @@ nmap("<C-v>", '"+pi')
 
 -- TODO: fix the bug where backspace/delete on selection copies it
 
--- Low-effort esc (ALT + Q)
-imap("<A-q>", "<Esc>")
-
--- Unbind some of these
--- nmap("<A-k>", "<leader>wk")
--- imap("<A-k>", "<Esc><leader>wki")
--- nmap("<A-j>", "<leader>wj")
--- imap("<A-j>", "<Esc><leader>wki")
-
--- Move to end of a line immediately while in insert mode
--- Actually, who needs this when you got the arrow keys of going to the next line and coming back??? Genius ik
---imap("<C-;>", "<Esc>$i")
+-- Low-effort esc (ALT + Q). This is only useful on laptops where you use the built-in keyboard. otherwise, split keyboard ftw
+--imap("<A-q>", "<Esc>")
 
 -- NOTE: the functions below MUST be global (no local indicator) in order to run in the string commands
 
@@ -195,6 +185,3 @@ imap("<Up>", "<C-O><cmd>lua attempt_move_up()<CR>")
 --keymap({ "i", "n" }, "<Down>", "<Down>")
 nmap("<Down>", "<cmd>lua attempt_move_down()<CR>")
 imap("<Down>", "<C-O><cmd>lua attempt_move_down()<CR>")
-
--- Better suggestions; CTRL + Space behaves like vscode
---imap("<C-space>", "<C-p>")
