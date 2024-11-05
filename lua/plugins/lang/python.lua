@@ -41,7 +41,9 @@ end
 
 -- Get the path to the active python environment
 local python_path = get_python_path()
-vim.notify("Python Path: " .. python_path)
+
+-- Notify if you want
+--vim.notify("Python Path: " .. python_path)
 
 vim.g.python3_host_prog = vim.fn.expand(python_path)
 
