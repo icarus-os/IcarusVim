@@ -6,6 +6,7 @@
 -- 
 -- See https://github.com/AmeerArsala/nvim-navbuddy/tree/master for a list of options
 
+-- Add variables inside this; these are like 'opts'
 local NB_OPTIONS = {}
 
 NB_OPTIONS.window = {

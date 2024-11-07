@@ -20,6 +20,6 @@ return {
     local keys = require("lazyvim.plugins.lsp.keymaps").get()
 
     -- disable a keymap
-    keys[#keys + 1] = { "<c-k>", false, mode = 'i' }
+    keys[#keys + 1] = { "<c-k>", false, mode = 'i' } -- bruh we are NOT letting this shit slide
   end
 }

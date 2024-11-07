@@ -7,7 +7,7 @@ nvim_lsp.denols.setup {
 }
 
 -- this is probs for linting the typescript stuff. Maybe remove this if it causes issues
-nvim_lsp.tsserver.setup {
+nvim_lsp.ts_ls.setup {
   on_attach = on_attach,
   root_dir = nvim_lsp.util.root_pattern("package.json"),
   single_file_support = false
