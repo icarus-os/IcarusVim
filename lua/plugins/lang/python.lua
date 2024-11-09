@@ -49,6 +49,9 @@ local python_path = get_python_path()
 vim.g.python3_host_prog = vim.fn.expand(python_path)
 
 return {
+  -- Use python extras as a base
+  { import = "lazyvim.plugins.extras.lang.python" },
+
   -- Add `pyright` to mason
   -- TODO: check following tools -> mypy types-requests types-docutils
   {
