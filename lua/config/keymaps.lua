@@ -86,7 +86,8 @@ imap("<C-E>", "<C-O>:bnext<CR>", {})
 nmap("<C-E>", "<cmd>bnext<CR>", {})
 -- prev
 imap("<C-Q>", "<C-O>:bprev<CR>", {})
-nmap("<C-Q>", "<cmd>bprev<CR>")
+nmap("<C-Q>", "<cmd>bprev<CR>", {})
+-- Alternatively, you could do Shift+H and Shift+L for left and right switches respectively
 
 -- Switching windows
 imap("<C-k>", "<C-O><C-W><Up>") -- up
@@ -117,6 +118,26 @@ nmap("<C-v>", '"+pi')
 
 -- Low-effort esc (ALT + Q). This is only useful on laptops where you use the built-in keyboard. otherwise, split keyboard ftw
 --imap("<A-q>", "<Esc>")
+
+-- Increment/Decrement values
+vim.keymap.set("n", "<C-PageUp>", function()
+  require("dial.map").manipulate("increment", "normal")
+end)
+
+vim.keymap.set("n", "<C-PageDown>", function()
+  require("dial.map").manipulate("decrement", "normal")
+end)
+
+-- Rename all
+vim.keymap.set("n", "<leader>rn", function()
+  return ":IncRename " .. vim.fn.expand("<cword>")
+end, { expr = true })
+
+-- Aerial Outline
+nmap("<leader>o", "<cmd>AerialToggle<CR>")
+
+-- Overseer (Task Runner)
+nmap("<leader>;", "<cmd>OverseerRun<CR>")
 
 -- NOTE: the functions below MUST be global (no local indicator) in order to run in the string commands
 

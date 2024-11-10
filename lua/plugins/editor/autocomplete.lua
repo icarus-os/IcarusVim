@@ -1,4 +1,4 @@
-local config = {
+local cmp_config = {
   "hrsh7th/nvim-cmp",
   lazy = true,
   dependencies = {
@@ -91,7 +91,7 @@ local config = {
             fallback()
           end
         end, { "i", "s" }),
-        
+
         -- The stuff commented out are extremely unnecessary
 
         -- ["<C-k>"] = cmp.mapping(function(fallback)
@@ -113,7 +113,7 @@ local config = {
         --["<C-b>"] = cmp.mapping.scroll_docs(-4),  -- the mouse can do this
         --["<C-f>"] = cmp.mapping.scroll_docs(4),   -- the mouse can do this
         ["<C-Space>"] = cmp.mapping.complete(),
-        ["<C-i>"] = cmp.mapping.abort(),  -- interpretation: CTRL + Insert (get back to insertion!!!)
+        ["<C-i>"] = cmp.mapping.abort(), -- interpretation: CTRL + Insert (get back to insertion!!!)
         ["<Tab>"] = cmp.mapping.confirm({
           select = true,
         }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
@@ -139,4 +139,5 @@ local config = {
   end,
 }
 
-return config
+local CONFIG = cmp_config
+return CONFIG
