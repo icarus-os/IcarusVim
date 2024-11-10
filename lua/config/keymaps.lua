@@ -67,10 +67,6 @@ imap("<C-,>", "<Esc><cmd>Navbuddy<CR>")
 nmap("<C-Right>", "<S-Right>", {})
 nmap("<C-Left>", "<S-Left>", {})
 
--- Mapping for CTRL + W (close the currently open tab)
-imap("<C-w>", "<Esc><cmd>bd<CR>", {})
---nmap("<C-w>", "<cmd>bd<CR>", { ttimeout = true })
-
 -- Mapping for CTRL + N (new buffer/tab)
 imap("<C-n>", "<Esc><cmd>enew<CR>", {})
 nmap("<C-n>", "<cmd>enew<CR>", {})
@@ -186,3 +182,47 @@ imap("<Up>", "<C-O><cmd>lua attempt_move_up()<CR>")
 --keymap({ "i", "n" }, "<Down>", "<Down>")
 nmap("<Down>", "<cmd>lua attempt_move_down()<CR>")
 imap("<Down>", "<C-O><cmd>lua attempt_move_down()<CR>")
+
+-- THE ANNOYING ONES
+
+-- function dump(o)
+--   if type(o) == "table" then
+--     local s = "{ \n"
+--     for k, v in pairs(o) do
+--       if type(k) ~= "number" then
+--         k = '"' .. k .. '"'
+--       end
+--       s = s .. "[" .. k .. "] = " .. dump(v) .. ", \n"
+--     end
+--     return s .. "\n}"
+--   else
+--     return tostring(o)
+--   end
+-- end
+
+local function startsWithAsLowercase(text, prefix)
+  return string.lower(text):find(prefix, 1, true) == 1
+end
+
+-- List all mappings starting with C-w
+local cw_mappings = vim.api.nvim_get_keymap("n")
+--vim.notify(dump(cw_mappings))
+
+-- UNMAP EVERYTHING RELATED TO <C-w> SO IT CAN BE SET AGAIN. FUCK THESE PLUGINS
+for _, mapping in pairs(cw_mappings) do
+  -- Skip the C-w mapping itself
+  if startsWithAsLowercase(mapping.lhs, "<c-w>") then
+    vim.cmd("nunmap " .. mapping.lhs)
+    --vim.notify(string.format("Unmapped: %s", mapping.lhs))
+  end
+end
+
+--vim.notify("Mappings starting with C-w have been unmapped.")
+
+-- Fuck off
+--vim.cmd("nunmap <C-w>d")
+--vim.cmd("nunmap <C-w><C-D>")
+
+-- Mapping for CTRL + W (close the currently open tab)
+imap("<C-w>", "<Esc><cmd>bd<CR>", {})
+nmap("<C-w>", "<cmd>bd<CR>", {})

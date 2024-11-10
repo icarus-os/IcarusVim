@@ -17,7 +17,9 @@ return {
         color_nr = nil, -- cterm
         highlight = "Normal",
       },
-      Search = { color = colors.orange },
+      Search = {
+        color = colors.orange,
+      },
       Error = {
         color = colors.error,
       },
@@ -25,10 +27,10 @@ return {
         color = colors.warning --[[colors.warning]],
       },
       Info = {
-        color = nil --[[colors.info]],
+        color = colors.info --[[colors.info]],
       },
       Hint = {
-        color = nil --[[colors.hint]],
+        color = colors.hint --[[colors.hint]],
       },
       Misc = {
         color = colors.purple,
@@ -38,5 +40,5 @@ return {
       cursor = false,
       --diagnostic = false,
     },
-  }
+  },
 }
