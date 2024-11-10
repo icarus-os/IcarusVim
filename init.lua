@@ -1,6 +1,3 @@
---package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"
---package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua"
-
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
 
@@ -9,7 +6,7 @@ local theme = require("globals.theme")
 theme.apply()
 
 -- Util functions
-function print_lsp_clients()
+function Print_LSP_Clients()
   local clients = vim.lsp.get_active_clients({ bufnr = 0 })
   if #clients > 0 then
     print("Active LSP Clients:")
