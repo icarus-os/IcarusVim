@@ -1,3 +1,6 @@
+-- first, import the internal lib
+require("globals.lib.icarus")
+
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
 

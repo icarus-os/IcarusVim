@@ -19,6 +19,36 @@ local cmp_config = {
     -- For luasnip
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
+
+    -- Config
+    PlugHook({
+      "nvim-cmp",
+      pre_load = function()
+        -- Lazy load all vscode like snippets
+        --require("luasnip/loaders/from_vscode").lazy_load()
+      end,
+      on_load = function()
+        local cmp = require("cmp")
+
+        cmp.setup.cmdline({ "/", "?" }, {
+          mapping = cmp.mapping.preset.cmdline(),
+          sources = { { name = "buffer" } },
+          window = {
+            completion = cmp.config.window.bordered(),
+            documentation = cmp.config.window.bordered(),
+          },
+        })
+
+        cmp.setup.cmdline(":", {
+          mapping = cmp.mapping.preset.cmdline(),
+          sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
+          window = {
+            completion = cmp.config.window.bordered(),
+            documentation = cmp.config.window.bordered(),
+          },
+        })
+      end,
+    }),
   },
   opts = function()
     local cmp = require("cmp")
@@ -89,35 +119,32 @@ local cmp_config = {
         ["<C-t>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
-          -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-          -- they way you will only jump inside the snippet region
-          elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
           elseif has_words_before() then
             cmp.complete()
           else
             fallback()
           end
         end, { "i", "s" }),
-
-        -- The stuff commented out are extremely unnecessary
-
-        -- ["<C-k>"] = cmp.mapping(function(fallback)
-        --   if cmp.visible() then
-        --     cmp.select_prev_item()
-        --   elseif luasnip.jumpable(-1) then
-        --     luasnip.jump(-1)
-        --   else
-        --     fallback()
-        --   end
-        -- end, { "i", "s" }),
-        -- ["<C-t>"] = cmp.mapping(function(fallback)
-        --   if luasnip.expand_or_jumpable() then
-        --     luasnip.expand_or_jump()
-        --   else
-        --     fallback()
-        --   end
-        -- end, { "i", "s" }),
+        -- Go to the previous portion of the snippet
+        ["<A-bs>"] = cmp.mapping(function(fallback) -- ALT + Backspace
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif luasnip.jumpable(-1) then
+            luasnip.jump(-1)
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
+        -- Enter and go to the next part of the snippet
+        ["<CR>"] = cmp.mapping(function(fallback) -- Enter
+          -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+          -- they way you will only jump inside the snippet region
+          if luasnip.expand_or_jumpable() then
+            luasnip.expand_or_jump()
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
         --["<C-b>"] = cmp.mapping.scroll_docs(-4),  -- the mouse can do this
         --["<C-f>"] = cmp.mapping.scroll_docs(4),   -- the mouse can do this
         ["<C-Space>"] = cmp.mapping.complete(),
@@ -127,25 +154,6 @@ local cmp_config = {
         }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       }),
     }
-  end,
-
-  config = function(_, opts)
-    local cmp = require("cmp")
-
-    -- Lazy load all vscode like snippets
-    --require("luasnip/loaders/from_vscode").lazy_load()
-
-    cmp.setup(opts)
-
-    cmp.setup.cmdline({ "/", "?" }, {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = { { name = "buffer" } },
-    })
-
-    cmp.setup.cmdline(":", {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
-    })
   end,
 }
 

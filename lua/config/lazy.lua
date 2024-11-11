@@ -35,7 +35,7 @@ require("lazy").setup({
   install = { colorscheme = { "tokyonight", "habamax", "kanagawa" } },
   checker = {
     enabled = true, -- check for plugin updates periodically
-    notify = false, -- notify on update
+    notify = false, -- notify on update. TODO: only on the dashboard, not while opening some random file
   }, -- automatically check for plugin updates
   performance = {
     rtp = {
