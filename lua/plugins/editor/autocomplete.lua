@@ -1,37 +1,44 @@
 local cmp_config = {
   "hrsh7th/nvim-cmp",
-  lazy = true,
+  --lazy = true,  -- do it automatically
   dependencies = {
+    "neovim/nvim-lspconfig",
     "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-nvim-lua",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
-    -- "hrsh7th/cmp-nvim-lsp-document-symbol",
-    "L3MON4D3/LuaSnip",
-    "saadparwaiz1/cmp_luasnip",
+
+    -- Pictograms added to the completion
     "onsails/lspkind.nvim",
     -- "lukas-reineke/cmp-under-comparator", -- Better sort completion items starting with underscore (Python)
-  },
-  config = function()
-    local _cmp, cmp = pcall(require, "cmp")
-    local _luasnip, luasnip = pcall(require, "luasnip")
-    local _lspkind, lspkind = pcall(require, "lspkind")
 
-    -- if not _cmp or not _lspkind or not _luasnip then
-    --   return
-    -- end
+    -- Completion Sources
+    "hrsh7th/cmp-nvim-lua", -- for vim.lsp.* completions
+    "hrsh7th/cmp-nvim-lsp-document-symbol", -- for autocompletions on `/` searches
+
+    -- For luasnip
+    "L3MON4D3/LuaSnip",
+    "saadparwaiz1/cmp_luasnip",
+  },
+  opts = function()
+    local cmp = require("cmp")
+    local luasnip = require("luasnip")
+    local lspkind = require("lspkind")
 
     local has_words_before = function()
-      unpack = unpack or table.unpack
+      unpack = unpack or table.unpack -- depends on the installation of lua
       local line, col = unpack(vim.api.nvim_win_get_cursor(0))
       return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
     end
 
-    -- Lazy load all vscode like snippets
-    require("luasnip/loaders/from_vscode").lazy_load()
-
-    cmp.setup({
+    return {
+      sources = {
+        { name = "nvim_lsp" },
+        { name = "nvim_lua" },
+        { name = "luasnip" },
+        { name = "path" },
+        { name = "buffer" },
+      },
       preselect = cmp.PreselectMode.Item,
       --completion = { autocomplete = true }, -- Make completion only on demand
       enabled = function()
@@ -39,6 +46,8 @@ local cmp_config = {
         if in_prompt then
           return false
         end
+
+        -- Do NOT put completions inside comments or strings
         local context = require("cmp.config.context")
         return not (
           context.in_treesitter_capture("comment")
@@ -76,7 +85,6 @@ local cmp_config = {
           return vim_item
         end,
       },
-
       mapping = cmp.mapping.preset.insert({
         ["<C-t>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
@@ -118,16 +126,18 @@ local cmp_config = {
           select = true,
         }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       }),
-      sources = {
-        { name = "nvim_lsp" },
-        { name = "nvim_lua" },
-        { name = "luasnip" },
-        { name = "path" },
-        { name = "buffer" },
-      },
-    })
+    }
+  end,
 
-    cmp.setup.cmdline("/", {
+  config = function(_, opts)
+    local cmp = require("cmp")
+
+    -- Lazy load all vscode like snippets
+    --require("luasnip/loaders/from_vscode").lazy_load()
+
+    cmp.setup(opts)
+
+    cmp.setup.cmdline({ "/", "?" }, {
       mapping = cmp.mapping.preset.cmdline(),
       sources = { { name = "buffer" } },
     })
@@ -139,5 +149,4 @@ local cmp_config = {
   end,
 }
 
-local CONFIG = cmp_config
-return CONFIG
+return cmp_config
