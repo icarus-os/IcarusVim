@@ -33,14 +33,14 @@ return {
           function()
             require("harpoon"):list():add()
           end,
-          desc = "Harpoon File",
+          desc = "Harpoon: Mark File",
         },
         {
           "<C-;>",
           function()
             require("harpoon"):list():add()
           end,
-          desc = "Harpoon File",
+          desc = "Harpoon: Mark File",
         },
         {
           "<leader>h",
@@ -48,9 +48,27 @@ return {
             local harpoon = require("harpoon")
             harpoon.ui:toggle_quick_menu(harpoon:list())
           end,
-          desc = "Harpoon Quick Menu",
+          desc = "Harpoon: Quick Menu",
+        },
+        {
+          "<leader><Right>",
+          function()
+            local harpoon = require("harpoon")
+            harpoon:list():next()
+          end,
+          desc = "Harpoon to Next File",
+        },
+        {
+          "<leader><Left>",
+          function()
+            local harpoon = require("harpoon")
+            harpoon:list():prev()
+          end,
+          desc = "Harpoon to Previous File",
         },
       }
+
+      -- For 1-9 and then 0 for 10
 
       for i = 1, 9 do
         table.insert(keys, {
@@ -61,6 +79,15 @@ return {
           desc = "Harpoon to File " .. i,
         })
       end
+
+      -- Also do 0 for 10
+      table.insert(keys, {
+        "<leader>0",
+        function()
+          require("harpoon"):list():select(10)
+        end,
+        desc = "Harpoon to File 10",
+      })
       return keys
     end,
   },

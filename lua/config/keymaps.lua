@@ -142,7 +142,7 @@ nmap("<leader>;", "<cmd>OverseerRun<CR>")
 -- NOTE: the functions below MUST be global (no local indicator) in order to run in the string commands
 
 -- Will move to the previous line if at the start of a line
-function attempt_move_left()
+function Attempt_Move_Left()
   if vim.fn.col(".") ~= 1 then
     -- Base case: do nothing
     vim.cmd("normal! h") -- literally just move left
@@ -153,7 +153,7 @@ function attempt_move_left()
 end
 
 -- Will move to the next line if at the end of a line
-function attempt_move_right()
+function Attempt_Move_Right()
   if vim.fn.col(".") ~= vim.fn.col("$") then
     -- Base Case
     vim.cmd("normal! l") -- literally just move right
@@ -164,7 +164,7 @@ function attempt_move_right()
 end
 
 -- Will move to the start of the line if on the first line
-function attempt_move_up()
+function Attempt_Move_Up()
   if vim.fn.line(".") ~= 1 then
     -- Base Case
     vim.cmd("normal! k") -- literally just move up
@@ -175,7 +175,7 @@ function attempt_move_up()
 end
 
 -- Will move to the end of the line if on the last line
-function attempt_move_down()
+function Attempt_Move_Down()
   if vim.fn.line(".") ~= vim.fn.line("$") then
     -- Base Case
     vim.cmd("normal! j") -- literally just move down
@@ -188,38 +188,23 @@ end
 -- NOTE: if all these arrow hax start acting up, comment them out. They are a bit sus
 
 -- Left
-nmap("<Left>", "<cmd>lua attempt_move_left()<CR>")
-imap("<Left>", "<C-O><cmd>lua attempt_move_left()<CR>")
+nmap("<Left>", "<cmd>lua Attempt_Move_Left()<CR>")
+imap("<Left>", "<C-O><cmd>lua Attempt_Move_Left()<CR>")
 
 -- Right
-nmap("<Right>", "<cmd>lua attempt_move_right()<CR>")
-imap("<Right>", "<C-O><cmd>lua attempt_move_right()<CR>")
+nmap("<Right>", "<cmd>lua Attempt_Move_Right()<CR>")
+imap("<Right>", "<C-O><cmd>lua Attempt_Move_Right()<CR>")
 
 -- Up
-nmap("<Up>", "<cmd>lua attempt_move_up()<CR>")
-imap("<Up>", "<C-O><cmd>lua attempt_move_up()<CR>")
+nmap("<Up>", "<cmd>lua Attempt_Move_Up()<CR>")
+imap("<Up>", "<C-O><cmd>lua Attempt_Move_Up()<CR>")
 
 -- Down
 --keymap({ "i", "n" }, "<Down>", "<Down>")
-nmap("<Down>", "<cmd>lua attempt_move_down()<CR>")
-imap("<Down>", "<C-O><cmd>lua attempt_move_down()<CR>")
+nmap("<Down>", "<cmd>lua Attempt_Move_Down()<CR>")
+imap("<Down>", "<C-O><cmd>lua Attempt_Move_Down()<CR>")
 
 -- THE ANNOYING ONES
-
--- function dump(o)
---   if type(o) == "table" then
---     local s = "{ \n"
---     for k, v in pairs(o) do
---       if type(k) ~= "number" then
---         k = '"' .. k .. '"'
---       end
---       s = s .. "[" .. k .. "] = " .. dump(v) .. ", \n"
---     end
---     return s .. "\n}"
---   else
---     return tostring(o)
---   end
--- end
 
 local function startsWithAsLowercase(text, prefix)
   return string.lower(text):find(prefix, 1, true) == 1
