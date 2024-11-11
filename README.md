@@ -1,7 +1,12 @@
-# My Neovim Config
+# Icarus Vim
 
-- idk not much to say about this, just my nvim config
+```txt
+ ___                       __     ___
+|_ _|___ __ _ _ __ _   _ __\ \   / (_)_ __ ___
+ | |/ __/ _` | '__| | | / __\ \ / /| | '_ ` _ \
+ | | (_| (_| | |  | |_| \__ \\ V / | | | | | | |
+|___\___\__,_|_|   \__,_|___/ \_/  |_|_| |_| |_|
 
-## NOTE
+```
 
-THIS IS ONLY TESTED ON NEOVIM VERSION 0.9.5!!! It breaks on version 0.10 for some reason!
+The Most Usable Neovim Distro based off of LazyVim (IN DEVELOPMENT).

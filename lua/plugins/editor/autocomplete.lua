@@ -1,6 +1,6 @@
 local cmp_config = {
   "hrsh7th/nvim-cmp",
-  --lazy = true,  -- do it automatically
+  --lazy = false, -- do it automatically
   dependencies = {
     "neovim/nvim-lspconfig",
     "hrsh7th/cmp-nvim-lsp",
