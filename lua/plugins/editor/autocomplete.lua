@@ -1,6 +1,5 @@
 local cmp_config = {
   "hrsh7th/nvim-cmp",
-  --lazy = false, -- do it automatically
   dependencies = {
     "neovim/nvim-lspconfig",
     "hrsh7th/cmp-nvim-lsp",
@@ -13,8 +12,6 @@ local cmp_config = {
     -- "lukas-reineke/cmp-under-comparator", -- Better sort completion items starting with underscore (Python)
 
     -- Completion Sources
-    "hrsh7th/cmp-nvim-lua", -- for vim.lsp.* completions
-    "hrsh7th/cmp-nvim-lsp-document-symbol", -- for autocompletions on `/` searches
 
     -- For luasnip
     "L3MON4D3/LuaSnip",
@@ -30,9 +27,17 @@ local cmp_config = {
       on_load = function()
         local cmp = require("cmp")
 
+        -- additionally, load the others
+        require("cmp_buffer")
+        require("cmp_path")
+        require("cmp_cmdline")
+
         cmp.setup.cmdline({ "/", "?" }, {
           mapping = cmp.mapping.preset.cmdline(),
-          sources = { { name = "buffer" } },
+          sources = {
+            { name = "nvim_lsp_document_symbol" },
+            { name = "buffer" },
+          },
           window = {
             completion = cmp.config.window.bordered(),
             documentation = cmp.config.window.bordered(),
@@ -46,6 +51,7 @@ local cmp_config = {
             completion = cmp.config.window.bordered(),
             documentation = cmp.config.window.bordered(),
           },
+          matching = { disallow_symbol_nonprefix_matching = false },
         })
       end,
     }),
@@ -54,6 +60,9 @@ local cmp_config = {
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     local lspkind = require("lspkind")
+
+    -- require this
+    require("cmp_nvim_lsp")
 
     local has_words_before = function()
       unpack = unpack or table.unpack -- depends on the installation of lua
@@ -64,7 +73,6 @@ local cmp_config = {
     return {
       sources = {
         { name = "nvim_lsp" },
-        { name = "nvim_lua" },
         { name = "luasnip" },
         { name = "path" },
         { name = "buffer" },
