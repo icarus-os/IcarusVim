@@ -22,7 +22,7 @@ local cmp_config = {
       "nvim-cmp",
       pre_load = function()
         -- Lazy load all vscode like snippets
-        --require("luasnip/loaders/from_vscode").lazy_load()
+        require("luasnip/loaders/from_vscode").lazy_load()
       end,
       on_load = function()
         local cmp = require("cmp")

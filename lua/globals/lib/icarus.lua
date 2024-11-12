@@ -47,3 +47,17 @@ function NOTIFY_PlugHook(tbl)
 
   return PlugHook(tbl)
 end
+
+-- Returns a string of the access module
+-- name: string
+function AccessModule(name)
+  local ACCESS_KEY = "_exports_"
+
+  return (name .. "." .. ACCESS_KEY)
+end
+
+-- Returns an import for lazy.nvim
+-- name: string
+function Importation(name)
+  return { import = AccessModule(name) }
+end
