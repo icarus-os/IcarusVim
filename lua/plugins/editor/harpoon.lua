@@ -27,21 +27,26 @@ return {
       },
     },
     keys = function()
+      local function toggle_telescope(harpoon_files)
+        local conf = require("telescope.config").values
+        local file_paths = {}
+        for _, item in ipairs(harpoon_files.items) do
+          table.insert(file_paths, item.value)
+        end
+
+        require("telescope.pickers")
+          .new({}, {
+            prompt_title = "Harpoon",
+            finder = require("telescope.finders").new_table({
+              results = file_paths,
+            }),
+            previewer = conf.file_previewer({}),
+            sorter = conf.generic_sorter({}),
+          })
+          :find()
+      end
+
       local keys = {
-        {
-          "<leader>H",
-          function()
-            require("harpoon"):list():add()
-          end,
-          desc = "Harpoon: Mark File",
-        },
-        {
-          "<C-;>",
-          function()
-            require("harpoon"):list():add()
-          end,
-          desc = "Harpoon: Mark File",
-        },
         {
           "<leader>h",
           function()
@@ -49,6 +54,22 @@ return {
             harpoon.ui:toggle_quick_menu(harpoon:list())
           end,
           desc = "Harpoon: Quick Menu",
+        },
+        {
+          "<leader>H",
+          function()
+            local harpoon = require("harpoon")
+            toggle_telescope(harpoon:list())
+          end,
+          desc = "Harpoon: Toggle Telescope Menu",
+        },
+        {
+          "<C-;>",
+          function()
+            local harpoon = require("harpoon")
+            harpoon:list():add()
+          end,
+          desc = "Harpoon: Mark File",
         },
         {
           "<leader><Right>",
@@ -68,8 +89,8 @@ return {
         },
       }
 
+      -- HARPOONING to specific entries
       -- For 1-9 and then 0 for 10
-
       for i = 1, 9 do
         table.insert(keys, {
           "<leader>" .. i,
@@ -87,6 +108,27 @@ return {
           require("harpoon"):list():select(10)
         end,
         desc = "Harpoon to File 10",
+      })
+
+      -- MARKING specific entries
+      -- For 1-9 and then 0 for 10
+      for i = 1, 9 do
+        table.insert(keys, {
+          "<C-" .. i .. ">",
+          function()
+            require("harpoon"):list():replace_at(i)
+          end,
+          desc = "Harpoon: Mark file as File " .. i,
+        })
+      end
+
+      -- Also do 0 for 10
+      table.insert(keys, {
+        "<C-0>",
+        function()
+          require("harpoon"):list():replace_at(10)
+        end,
+        desc = "Harpoon: Mark file as File 10",
       })
       return keys
     end,

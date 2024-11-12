@@ -222,8 +222,8 @@ return {
       "nvim-tree/nvim-web-devicons",
     },
     build = ":PympleBuild",
-    config = function()
-      require("pymple").setup()
-    end,
+    -- config = function()
+    --   require("pymple").setup()
+    -- end,
   },
 }
