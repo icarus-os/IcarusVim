@@ -147,7 +147,7 @@ local cmp_config = {
         ["<CR>"] = cmp.mapping(function(fallback) -- Enter
           -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
           -- they way you will only jump inside the snippet region
-          if luasnip.expand_or_jumpable() then
+          if luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
           else
             fallback()
