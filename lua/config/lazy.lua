@@ -33,6 +33,9 @@ require("lazy").setup({
     notify = false, -- notify on update. TODO: only on the dashboard, not while opening some random file
   }, -- automatically check for plugin updates
   performance = {
+    cache = {
+      enabled = false,
+    },
     rtp = {
       -- disable some rtp plugins
       disabled_plugins = {
